@@ -102,3 +102,18 @@ $curl->post('https://www.example.com/login/', array(
 
 // more https://github.com/php-curl-class/php-curl-class
 ```
+
+> 全局异常捕获
+
+```
+
+try {
+    if ($_POST['test']) {
+    
+    }
+} catch (Exception $e) {
+    echo $e->getMessage(); // Undefined index: test
+}
+
+
+```
