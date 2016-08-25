@@ -1,6 +1,7 @@
 # 集成了Laravel的Eloquent ORM的Yaf框架
 ![Supported PHP versions: >=5.4](https://img.shields.io/badge/PHP-%3E%3D5.4-blue.svg)
 ![Supported Yaf versions: >=1.8.0](https://img.shields.io/badge/Yaf-%3E%3D2.3.2-orange.svg)
+![Supported Eloquent versions: =5.0](https://img.shields.io/badge/Eloquent-%3D5.0-green.svg)
 ![License](https://img.shields.io/badge/license-Apache%202-yellow.svg)
 
 # Session由默认的文件改为Redis存储
