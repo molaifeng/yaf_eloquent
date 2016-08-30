@@ -55,13 +55,17 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
 
     }
 
-//    public function _initRoute(Yaf_Dispatcher $dispatcher)
-//    {
-//        $router = $dispatcher->getRouter();
-//        $router->addRoute("name", new Yaf_Route_Simple("m", "c", "a"));
-//        $router->addRoute("name", new Yaf_Route_Supervar('r'));
-//        //$router->addRoute("name", new Yaf_Route_Map(true));
-//    }
+    public function _initRoute(Yaf_Dispatcher $dispatcher)
+    {
+        $router = $dispatcher->getRouter();
+        $router->addRoute('404', new Yaf_Route_Rewrite(
+            '/404$',
+            array(
+                'controller'    => 'Public',
+                'action'        => 'unknow'
+            )
+        ));
+    }
 
     public function _initSession()
     {
