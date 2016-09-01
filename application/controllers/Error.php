@@ -19,7 +19,7 @@ class ErrorController extends Yaf_Controller_Abstract
         $exception = $this->getRequest()->getException();
 
         // 此处可扩展，当接口遇到错误并停止时，会写条日志的
-        Log_Log::info('error:' . $exception->getMessage(), true, true, 'error_log');
+        Log_Log::info('error:' . $exception->getMessage() .'|file:'.$exception->getFile().'|line:'.$exception->getLine(), true, true, 'error_log');
 
         if (isset($_GET['x'])) {
             echo "<pre>";
@@ -29,6 +29,7 @@ class ErrorController extends Yaf_Controller_Abstract
 
         // 加载失败
         if ($exception instanceof Yaf_Exception_LoadFailed) {
+            $this->redirect('/404');return;
 
             // 其他错误
         } else {
