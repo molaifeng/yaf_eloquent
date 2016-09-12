@@ -65,7 +65,7 @@ class Cache_Cache
      * @return mixed
      */
     static function getInstance() {
-       $param = func_get_args();
+        $param = func_get_args();
         return get_instance_of(__CLASS__,'connect',$param);
     }
 

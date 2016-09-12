@@ -37,8 +37,56 @@ function getLogPath()
  */
 function redisConnect()
 {
-    return Cache_Cache::getInstance('Redis', ['host' => getConfig('session', 'host'), 'port' => getConfig('session', 'port')]);
+    return Cache_Cache::getInstance('Redis', ['host' => getConfig('redis', 'host'), 'port' => getConfig('redis', 'port')]);
 }
+
+/**
+ * 取得对象实例 支持调用类的静态方法
+ * @param string $name 类名
+ * @param string $method 方法名，如果为空则返回实例化对象
+ * @param array $args 调用参数
+ * @return object
+ */
+function get_instance_of($name, $method='', $args=array())
+{
+    static $_instance = array();
+    $identify = empty($args) ? $name . $method : $name . $method . to_guid_string($args);
+    if (!isset($_instance[$identify])) {
+        if (class_exists($name)) {
+            $o = new $name();
+            if (method_exists($o, $method)) {
+                if (!empty($args)) {
+                    $_instance[$identify] = call_user_func_array(array(&$o, $method), $args);
+                } else {
+                    $_instance[$identify] = $o->$method();
+                }
+            }
+            else
+                $_instance[$identify] = $o;
+        }
+        else
+            halt('实例化一个不存在的类！' . ':' . $name);
+    }
+    return $_instance[$identify];
+}
+
+/**
+ * 根据PHP各种类型变量生成唯一标识号
+ * @param mixed $mix 变量
+ * @return string
+ */
+function to_guid_string($mix)
+{
+    if (is_object($mix) && function_exists('spl_object_hash')) {
+        return spl_object_hash($mix);
+    } elseif (is_resource($mix)) {
+        $mix = get_resource_type($mix) . strval($mix);
+    } else {
+        $mix = serialize($mix);
+    }
+    return md5($mix);
+}
+
 
 /**
  * 发送邮件
