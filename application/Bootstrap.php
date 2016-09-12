@@ -42,7 +42,7 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
         $capsule->addConnection(Yaf_Application::app()->getConfig()->database->toArray());
 
         // biz业务链接
-        $capsule->addConnection(Yaf_Application::app()->getConfig()->biz->toArray(), 'biz');
+        // $capsule->addConnection(Yaf_Application::app()->getConfig()->biz->toArray(), 'biz');
 
         // 设置全局静态可访问
         $capsule->setAsGlobal();
@@ -50,8 +50,8 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
         // 启动Eloquent
         $capsule->bootEloquent();
 
-        define('BIZ', 'biz');
-        $capsule::connection('biz')->enableQueryLog();
+        // define('BIZ', 'biz');
+        // $capsule::connection('biz')->enableQueryLog();
 
     }
 
