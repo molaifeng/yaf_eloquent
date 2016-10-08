@@ -1710,6 +1710,58 @@ class Builder {
 	}
 
 	/**
+	 * Insert a new record into the database if it's doesn't exists.
+	 *
+	 * @param  array  $values
+	 * @return bool
+	 */
+	public function insertIgnore(array $values)
+	{
+		if (empty($values)) return true;
+
+		// Since every insert gets treated like a batch insert, we will make sure the
+		// bindings are structured in a way that is convenient for building these
+		// inserts statements by verifying the elements are actually an array.
+		if ( ! is_array(reset($values)))
+		{
+			$values = array($values);
+		}
+
+		// Since every insert gets treated like a batch insert, we will make sure the
+		// bindings are structured in a way that is convenient for building these
+		// inserts statements by verifying the elements are actually an array.
+		else
+		{
+			foreach ($values as $key => $value)
+			{
+				ksort($value); $values[$key] = $value;
+			}
+		}
+
+		// We'll treat every insert like a batch insert so we can easily insert each
+		// of the records into the database consistently. This will make it much
+		// easier on the grammars to just handle one type of record insertion.
+		$bindings = array();
+
+		foreach ($values as $record)
+		{
+			foreach ($record as $value)
+			{
+				$bindings[] = $value;
+			}
+		}
+
+		$sql = $this->grammar->compileIgnoreInsert($this, $values);
+
+		// Once we have compiled the insert statement's SQL we can execute it on the
+		// connection and return a result as a boolean success indicator as that
+		// is the same type of result returned by the raw connection instance.
+		$bindings = $this->cleanBindings($bindings);
+
+		return $this->connection->insert($sql, $bindings);
+	}
+
+	/**
 	 * Insert a new record and get the value of the primary key.
 	 *
 	 * @param  array   $values

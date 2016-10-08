@@ -640,6 +640,42 @@ class Grammar extends BaseGrammar {
 	}
 
 	/**
+	 * Compile an ignore insert statement into SQL.
+	 *
+	 * @param  \Illuminate\Database\Query\Builder  $query
+	 * @param  array  $values
+	 * @return string
+	 */
+	public function compileIgnoreInsert(Builder $query, array $values)
+	{
+		// Essentially we will force every insert to be treated as a batch insert which
+		// simply makes creating the SQL easier for us since we can utilize the same
+		// basic routine regardless of an amount of records given to us to insert.
+		$table = $this->wrapTable($query->from);
+
+		if ( ! is_array(reset($values)))
+		{
+			$values = array($values);
+		}
+
+		$columns = $this->columnize(array_keys(reset($values)));
+
+		// We need to build a list of parameter place-holders of values that are bound
+		// to the query. Each insert should have the exact same amount of parameter
+		// bindings so we will loop through the record and parameterize them all.
+		$parameters = array();
+
+		foreach($values as $record)
+		{
+			$parameters[] = '('.$this->parameterize($record).')';
+		}
+
+		$parameters = implode(', ', $parameters);
+
+		return "insert IGNORE into $table ($columns) values $parameters";
+	}
+
+	/**
 	 * Compile an insert and get ID statement into SQL.
 	 *
 	 * @param  \Illuminate\Database\Query\Builder  $query
