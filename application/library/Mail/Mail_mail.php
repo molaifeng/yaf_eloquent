@@ -80,10 +80,10 @@ header("Content-type: text/html; charset=utf-8");
 $subject = "=?UTF-8?B?" . base64_encode('这是一封测试邮件') . "?=";
 
 //收件人
-$sendto = 'shaolong.xu@fengjr.com';
+$sendto = 'molaifeng@foxmail.com';
 
 //發件人
-$replyto = 'shaolong.xu@fengjr.com';
+$replyto = 'molaifeng@foxmail.com';
 
 //內容
 $message = "这是一封测试邮件";

@@ -50,8 +50,8 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
         // 启动Eloquent
         $capsule->bootEloquent();
 
-        // define('BIZ', 'biz');
-        // $capsule::connection('biz')->enableQueryLog();
+        // define('DT', 'dt');
+        // $capsule::connection('dt')->enableQueryLog();
 
     }
 
