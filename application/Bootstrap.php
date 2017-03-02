@@ -84,6 +84,17 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
 
         restore_error_handler();
 
+        // 捕获fatal error
+        $e = error_get_last();
+        if ($e['type'] == E_ERROR) {
+            $str = <<<TYPEOTHER
+[message] {$e['message']}
+[file] {$e['file']}
+[line] {$e['line']}
+TYPEOTHER;
+            // todo 发送邮件、短息、写日志报警……
+        }
+
         // 定义了开关，便关闭log
         if (!defined('SHUTDOWN')) {
             Log_Log::info('receive:' . var_export($_REQUEST, true), true, true);
