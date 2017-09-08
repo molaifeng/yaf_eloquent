@@ -28,7 +28,7 @@ public function _initSession()
 DB::table('tb_name')->get()
 
 // dt
-DB::connection('dt')->get();
+DB::connection('another')->get();
 
 ```
 

@@ -143,7 +143,7 @@ class Upload_Upload
             $this->error = '非法图像文件';
             return false;
         }
-        if(!move_uploaded_file($file['tmp_name'], auto_charset($filename,'utf-8','gbk'))) {
+        if(!move_uploaded_file($file['tmp_name'], PHP_OS == 'WINNT' ? auto_charset($filename,'utf-8','gbk') : $filename)) {
             $this->error = '文件上传保存错误！';
             return false;
         }
@@ -233,7 +233,7 @@ class Upload_Upload
                 if(!$this->save($file)) return false;
                 if(function_exists($this->hashType)) {
                     $fun =  $this->hashType;
-                    $file['hash']   =  $fun(auto_charset($file['savepath'].$file['savename'],'utf-8','gbk'));
+                    $file['hash']   =  $fun(PHP_OS == 'WINNT' ? auto_charset($file['savepath'].$file['savename'],'utf-8','gbk') : $file['savepath'].$file['savename']);
                 }
                 //上传成功后保存文件信息，供其他地方调用
                 unset($file['tmp_name'],$file['error']);
@@ -307,7 +307,7 @@ class Upload_Upload
                 if(!$this->save($file)) return false;
                 if(function_exists($this->hashType)) {
                     $fun =  $this->hashType;
-                    $file['hash']   =  $fun(auto_charset($file['savepath'].$file['savename'],'utf-8','gbk'));
+                    $file['hash']   =  $fun(PHP_OS == 'WINNT' ? auto_charset($file['savepath'].$file['savename'],'utf-8','gbk') : $file['savepath'].$file['savename']);
                 }
                 //上传成功后保存文件信息，供其他地方调用
                 unset($file['tmp_name'],$file['error']);
