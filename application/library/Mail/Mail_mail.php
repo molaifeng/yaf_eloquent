@@ -76,24 +76,24 @@ class Mail_mail {
 
 header("Content-type: text/html; charset=utf-8");
 
-//主題
+// 主題
 $subject = "=?UTF-8?B?" . base64_encode('这是一封测试邮件') . "?=";
 
-//收件人
+// 收件人
 $sendto = 'molaifeng@foxmail.com';
 
-//發件人
+// 发件人
 $replyto = 'molaifeng@foxmail.com';
 
-//內容
+// 內容
 $message = "这是一封测试邮件";
 
-//附件
+// 附件
 $filename = '1.zip';
 
 $excelname = '1.zip';
 
-//附件類別
+// 附件类别
 $mimetype = "application/octet-stream";
 
 $mailfile = new Mail_mail($subject, $sendto, $replyto, $message, $filename, $excelname, $mimetype);

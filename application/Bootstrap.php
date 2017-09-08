@@ -41,8 +41,8 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
         // 创建默认链接
         $capsule->addConnection(Yaf_Application::app()->getConfig()->database->toArray());
 
-        // biz业务链接
-        // $capsule->addConnection(Yaf_Application::app()->getConfig()->biz->toArray(), 'biz');
+        // another业务链接
+        // $capsule->addConnection(Yaf_Application::app()->getConfig()->another->toArray(), 'another');
 
         // 设置全局静态可访问
         $capsule->setAsGlobal();
@@ -50,8 +50,8 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
         // 启动Eloquent
         $capsule->bootEloquent();
 
-        // define('DT', 'dt');
-        // $capsule::connection('dt')->enableQueryLog();
+        // define('ANOTHER', 'another');
+        // $capsule::connection('another')->enableQueryLog();
 
     }
 
@@ -103,8 +103,8 @@ TYPEOTHER;
             $this->log(Capsule::getQueryLog(), 'DEFAULT');
 
             // 业务库相关SQL
-            if (defined('BIZ'))
-                $this->log(Capsule::connection(BIZ)->getQueryLog(), 'BIZ');
+//            if (defined('ANOTHER'))
+//                $this->log(Capsule::connection(ANOTHER)->getQueryLog(), 'ANOTHER');
         }
 
     }
