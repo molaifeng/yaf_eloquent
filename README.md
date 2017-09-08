@@ -27,7 +27,7 @@ public function _initSession()
 // 默认的
 DB::table('tb_name')->get()
 
-// dt
+// another
 DB::connection('another')->get();
 
 ```
