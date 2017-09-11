@@ -53,7 +53,13 @@ yum -y install sendmail
 /etc/rc.d/init.d/sendmail start
 
 // 发送邮件，可群发
-sendmail([molaifeng@foxmail.com], '测试邮件', '这是一封测试邮件');
+sendmail([
+    'to'        => [], // 邮件发送人列表
+    'cc'        => [], // 邮件抄送人列表
+    'subject'   => '', // 邮件主题
+    'content'   => '', // 邮件正文
+    'attachment'=> []  // 附件列表
+]);
 ```
 
 # 数据加解密

@@ -95,7 +95,7 @@ function to_guid_string($mix)
  * @param $content
  * @return bool
  */
-function sendmail($email, $title, $content)
+function sendmail1($email, $title, $content)
 {
 
     if (!is_array($email) || !$email)
@@ -120,6 +120,56 @@ function sendmail($email, $title, $content)
             }
         }
     }
+
+}
+
+/**
+ * 发送邮件
+ * @param $data
+ * @return array
+ */
+function sendmail($data)
+{
+
+    $mail = new PHPMailer(true);
+    $result = [
+        'status'    => 1,
+        'msg'       => '发送成功'
+    ];
+
+    try {
+        $mail->setFrom('fengjr@sys.com');
+        if (isset($data['to']) && $data['to']) {
+            foreach (explode(',', $data['to']) as $tv) {
+                $mail->addAddress($tv);
+            }
+        }
+
+        if (isset($data['cc']) && $data['cc']) {
+            foreach (explode(',', $data['cc']) as $cv) {
+                $mail->addCC($cv);
+            }
+        }
+
+        if (isset($data['attachment']) && !empty($data['attachment'])) {
+            foreach ($data['attachment'] as $av) {
+                $mail->addAttachment(APP_PATH . DIRECTORY_SEPARATOR . 'public' . $av['path']);
+            }
+        }
+        $mail->isHTML(true);
+        $mail->CharSet = 'utf-8';
+        $mail->Subject = $data['subject'];
+        $mail->Body    = $data['content'];
+        $mail->send();
+    } catch (Exception $e) {
+        $result = [
+            'status'    => 0,
+            'msg'       => $mail->ErrorInfo
+        ];
+        Log_Log::info("send mail failure:" . var_export($result, 1), 1, 1, 'mail_error');
+    }
+
+    return $result;
 
 }
 
