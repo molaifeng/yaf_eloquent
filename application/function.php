@@ -1,8 +1,5 @@
 <?php
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-
 /**
  * 打印数组
  * @param $data
@@ -134,6 +131,8 @@ function sendmail1($email, $title, $content)
 function sendmail($data)
 {
 
+    require_once APP_PATH . "/application/library/Mail/PHPMailerAutoload.php";
+
     $mail = new PHPMailer(true);
     $result = [
         'status'    => 1,
@@ -141,7 +140,7 @@ function sendmail($data)
     ];
 
     try {
-        $mail->setFrom('fengjr@sys.com');
+        $mail->setFrom(getConfig('mail', 'from'));
         if (isset($data['to']) && $data['to']) {
             foreach (explode(',', $data['to']) as $tv) {
                 $mail->addAddress($tv);
