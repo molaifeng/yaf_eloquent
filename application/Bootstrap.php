@@ -51,13 +51,28 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
         $capsule->bootEloquent();
 
         // define('ANOTHER', 'another');
-        // $capsule::connection('another')->enableQueryLog();
+        $capsule::connection('another')->enableQueryLog();
 
     }
 
     public function _initRoute(Yaf_Dispatcher $dispatcher)
     {
         $router = $dispatcher->getRouter();
+        $router->addRoute('login', new Yaf_Route_Rewrite(
+            '/login$',
+            array(
+                'module'         => 'Index', // 默认的模块可以省略
+                'controller'    => 'Public',
+                'action'        => 'login'
+            )
+        ));
+        $router->addRoute('logout', new Yaf_Route_Rewrite(
+            '/logout$',
+            array(
+                'controller'    => 'Public',
+                'action'        => 'logout'
+            )
+        ));
         $router->addRoute('404', new Yaf_Route_Rewrite(
             '/404$',
             array(
@@ -92,7 +107,7 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
 [file] {$e['file']}
 [line] {$e['line']}
 TYPEOTHER;
-            // todo 发送邮件、短息、写日志报警……
+            // todo 发送邮件、短信、写日志报警……
         }
 
         // 定义了开关，便关闭log

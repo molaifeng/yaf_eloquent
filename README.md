@@ -127,3 +127,40 @@ try {
 
 
 ```
+
+# URL 重写
+
+```
+public function _initRoute(Yaf_Dispatcher $dispatcher)
+{
+    $router = $dispatcher->getRouter();
+    
+    // http://yaf/login
+    $router->addRoute('login', new Yaf_Route_Rewrite(
+        '/login$',
+        array(
+            'module'         => 'Index', // 默认的模块可以省略
+            'controller'    => 'Public',
+            'action'        => 'login'
+        )
+    ));
+    
+    // http://yaf/logout
+    $router->addRoute('logout', new Yaf_Route_Rewrite(
+        '/logout$',
+        array(
+            'controller'    => 'Public',
+            'action'        => 'logout'
+        )
+    ));
+    
+    // http://yaf/404
+    $router->addRoute('404', new Yaf_Route_Rewrite(
+        '/404$',
+        array(
+            'controller'    => 'Public',
+            'action'        => 'unknow'
+        )
+    ));
+}
+```
