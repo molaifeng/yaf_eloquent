@@ -118,8 +118,8 @@ TYPEOTHER;
             $this->log(Capsule::getQueryLog(), 'DEFAULT');
 
             // 业务库相关SQL
-//            if (defined('ANOTHER'))
-//                $this->log(Capsule::connection(ANOTHER)->getQueryLog(), 'ANOTHER');
+            if (defined('ANOTHER'))
+                $this->log(Capsule::connection(ANOTHER)->getQueryLog(), 'ANOTHER');
         }
 
     }
