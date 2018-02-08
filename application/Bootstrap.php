@@ -7,13 +7,7 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
 
     public function _initLoader()
     {
-        set_error_handler(
-            create_function(
-                '$severity, $message, $file, $line',
-                'throw new ErrorException($message, $severity, $severity, $file, $line);'
-            )
-        );
-
+        set_error_handler([$this, "onError"]);
         register_shutdown_function(array($this, 'cleanup'));
 
         Yaf_Loader::import(APP_PATH . "/vendor/autoload.php");
@@ -21,6 +15,10 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
 
         // 注册本地类名前缀, 这部分类名将会在本地类库查找
         Yaf_Loader::getInstance()->registerLocalNameSpace(array('Log', 'Cache', 'Upload', 'Http', 'Util'));
+    }
+
+    public function onError($severity, $message, $file, $line) {
+        throw new ErrorException($message, $severity, $severity, $file, $line);
     }
 
     public function _initConfig()

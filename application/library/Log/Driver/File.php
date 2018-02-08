@@ -53,11 +53,15 @@ class Log_Driver_File
             }
         }
         clearstatcache();
+        if (!isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+            $_SERVER['HTTP_X_FORWARDED_FOR'] = $_SERVER['REMOTE_ADDR'];
         error_log(
-            "[{$now}] " . $_SERVER['REMOTE_ADDR'] . ' ' . $_SERVER['REQUEST_URI'] . "\r\n{$log}\r\n",
+            "[{$now}] " . $_SERVER['HTTP_X_FORWARDED_FOR'] . ' ' . $_SERVER['REQUEST_URI'] . "\r\n{$log}\r\n",
             3, 
             $destination
         );
+
+        // 防止在 Linux 跑 Crontab 任务时，指定 root 用户创建日志，这样 nginx 所属的用户就写不进去日志了
         if (PHP_OS != 'WINNT') {
             $pid = posix_getpwuid(posix_geteuid());
             if (strtolower($pid['name']) == 'root') {
