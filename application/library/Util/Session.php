@@ -21,6 +21,7 @@ class Util_Session implements SessionHandlerInterface
     {
         $this->handle = redisConnect();
         $this->lifetime = ini_get('session.gc_maxlifetime');
+        return true;
     }
 
     /**
@@ -38,13 +39,13 @@ class Util_Session implements SessionHandlerInterface
     /**
      * read session by session_id
      * @param string $session_id
-     * @return mixed
+     * @return string
      */
     public function read($session_id)
     {
         $session_id = $this->prefix . $session_id;
         $data = $this->handle->get($session_id);
-        return $data;
+        return is_string($data) ? $data : '';
     }
 
     /**
