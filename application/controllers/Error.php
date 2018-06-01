@@ -9,7 +9,6 @@ class ErrorController extends Yaf_Controller_Abstract
 
     public function init()
     {
-        header("Content-Type:text/html;charset=utf-8");
         Yaf_Dispatcher::getInstance()->disableView();
     }
 

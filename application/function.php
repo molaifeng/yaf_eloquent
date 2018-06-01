@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Database\Capsule\Manager as DB;
+
 /**
  * 打印数组
  * @param $data
@@ -68,6 +70,17 @@ function get_instance_of($name, $method='', $args=array())
             halt('实例化一个不存在的类！' . ':' . $name);
     }
     return $_instance[$identify];
+}
+
+/**
+ * 错误输出
+ * @param $msg
+ * @param int $code
+ * @param string $type
+ */
+function throwException($msg, $code = 2, $type = 'RuntimeException')
+{
+    throw new $type($msg, $code);
 }
 
 /**
@@ -213,4 +226,75 @@ function auto_charset($fContents, $from, $to)
     } else {
         return $fContents;
     }
+}
+
+/**
+ * 根据字段重组数组
+ * @param array $array 数组 默认为 array()
+ * @param string $field 字段名 默认为id
+ * @return array $result 重组好的数组
+ */
+function setArrayByField($array = array(), $field = 'id')
+{
+    $result = array();
+    if (is_array($array)) {
+        foreach ($array as $key => $value) {
+            $result[$value[$field]] = $value;
+        }
+    }
+    return $result;
+}
+
+/**
+ * 获取数组字段值
+ * @param array $array 数组 默认为 array()
+ * @param string $field 字段名 默认为id
+ * @return array $result 数组(各字段值)
+ */
+function getValueByField($array = array(), $field = 'id')
+{
+    $result = array();
+    if (is_array($array)) {
+        foreach ($array as $key => $value) {
+            $result[] = $value[$field];
+        }
+    }
+    return $result;
+}
+
+/**
+ * 通过关联数组获取数据
+ * @param string $table 表名
+ * @param string $tableField 表字段
+ * @param array $array 数组
+ * @param string $arrayField 数组的字段
+ * @param array $getField 要获取的字段 此字段也可以是 *
+ * @param string $connection 数据库连接
+ *
+ * @return array $result 获取的数据
+ */
+function getDataByArray($table, $tableField, $array, $arrayField, $getField = [], $connection = '') {
+    $result = empty($connection) ?
+        DB::table($table)->select($getField)->whereIn($tableField, getValueByField($array, $arrayField))->get() :
+        DB::connection($connection)->table($table)->select($getField)->whereIn($tableField, getValueByField($array, $arrayField))->get();
+    return setArrayByField($result, $tableField);
+}
+
+/**
+ * 获取用户IP
+ * @return string
+ */
+function get_client_ip()
+{
+    $IP = '';
+    if (getenv('HTTP_CLIENT_IP') && strcasecmp(getenv('HTTP_CLIENT_IP'), 'unknown')) {
+        $IP = getenv('HTTP_CLIENT_IP');
+    } elseif(getenv('HTTP_X_FORWARDED_FOR') && strcasecmp(getenv('HTTP_X_FORWARDED_FOR'), 'unknown')) {
+        $IP = getenv('HTTP_X_FORWARDED_FOR');
+    } elseif(getenv('REMOTE_ADDR') && strcasecmp(getenv('REMOTE_ADDR'), 'unknown')) {
+        $IP = getenv('REMOTE_ADDR');
+    } elseif(isset($_SERVER['REMOTE_ADDR']) && $_SERVER['REMOTE_ADDR'] && strcasecmp($_SERVER['REMOTE_ADDR'], 'unknown')) {
+        $IP = $_SERVER['REMOTE_ADDR'];
+    }
+    return $IP ? $IP : "unknow";
 }
