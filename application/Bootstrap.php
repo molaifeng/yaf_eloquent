@@ -92,6 +92,13 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
         }
     }
 
+    public function _initPlugin(Yaf_Dispatcher $dispatcher) {
+
+        // 如不用，可注释以下两段或整个方法
+        $user = new UserPlugin();
+        $dispatcher->registerPlugin($user);
+    }
+
     public function cleanup()
     {
 
