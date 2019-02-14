@@ -9,8 +9,8 @@ class IndexController extends AbstractController
     public function indexAction()
     {
 
-        $user = DB::table('users')->where('username', 'molaifeng1')->first();
-        var_dump($user);exit;
+//        $user = DB::table('users')->where('username', 'molaifeng1')->first();
+//        var_dump($user);exit;
 
 //        DB::table('users')->chunk(100, function($users)
 //        {
@@ -58,8 +58,8 @@ class IndexController extends AbstractController
 //        $data = $test->getInfo();
 //        print_r($data);
 //exit;
-//        $this->getView()->assign("content", "Hello World");
-        $this->getView()->display('layout/index.html');
+        $this->getView()->assign("content", "Hello World");
+        $this->getView()->display('index/index.html');
     }
 
 }

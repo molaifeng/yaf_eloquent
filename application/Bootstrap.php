@@ -49,7 +49,7 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
         $capsule->bootEloquent();
 
         // define('ANOTHER', 'another');
-        $capsule::connection('another')->enableQueryLog();
+//        $capsule::connection('another')->enableQueryLog();
 
     }
 

@@ -32,6 +32,19 @@ DB::connection('another')->get();
 
 ```
 
+# models 子目录使用
+
+```
+
+# 命名空间写法
+$user = new \Sub\UserModel();
+echo $user->hello();
+
+# 传统写法
+$demo = new Sub_DemoModel();
+echo $demo->hello();
+```
+
 # 文件上传
 
 ```

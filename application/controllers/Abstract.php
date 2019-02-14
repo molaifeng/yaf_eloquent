@@ -15,7 +15,10 @@ abstract class AbstractController extends Yaf_Controller_Abstract
         header("Content-Type:text/html;charset=utf-8");
         session_start();
 
-        echo "hello world!";exit;
+        $user = new \Sub\UserModel();
+        echo $user->hello();
+        $demo = new Sub_DemoModel();
+        echo $demo->hello();
         // todo
 
     }

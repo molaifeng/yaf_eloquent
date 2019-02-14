@@ -9,12 +9,23 @@ class UserPlugin extends Yaf_Plugin_Abstract
 
     /**
      * 在路由之前触发，这个是 6 个事件中, 最早的一个. 但是一些全局自定的工作, 还是应该放在 Bootstrap 中去完成
+     * 这个钩子可以对 REQUEST_URI 进行控制
      * @param Yaf_Request_Abstract $request
      * @param  Yaf_Response_Abstract $response
      */
     public function routerStartup(Yaf_Request_Abstract $request, Yaf_Response_Abstract $response)
     {
-        echo "Hook routerStartup called" . PHP_EOL;
+
+        // todo 使用时可以去掉，本地测试时由于没有 favicon.ico 文件经常报错
+        if (strpos($request->getRequestUri(), '/favicon.ico') !== false) {
+
+            // 直接退出，api 中可以返回对应的错误逻辑
+            exit;
+
+            // 或重置 uri
+            $request->setRequestUri('/');
+        }
+        echo "Hook routerStartup called<br />\n";
     }
 
     /**
@@ -24,7 +35,7 @@ class UserPlugin extends Yaf_Plugin_Abstract
      */
     public function routerShutdown(Yaf_Request_Abstract $request, Yaf_Response_Abstract $response)
     {
-        echo "Hook routerShutdown called" . PHP_EOL;
+        echo "Hook routerShutdown called<br />\n";
     }
 
     /**
@@ -34,7 +45,7 @@ class UserPlugin extends Yaf_Plugin_Abstract
      */
     public function dispatchLoopStartup(Yaf_Request_Abstract $request, Yaf_Response_Abstract $response)
     {
-        echo "Hook DispatchLoopStartup called" . PHP_EOL;
+        echo "Hook DispatchLoopStartup called<br />\n";
     }
 
     /**
@@ -44,7 +55,7 @@ class UserPlugin extends Yaf_Plugin_Abstract
      */
     public function preDispatch(Yaf_Request_Abstract $request, Yaf_Response_Abstract $response)
     {
-        echo "Hook PreDispatch called" . PHP_EOL;
+        echo "Hook PreDispatch called<br />\n";
     }
 
     /**
@@ -54,7 +65,7 @@ class UserPlugin extends Yaf_Plugin_Abstract
      */
     public function postDispatch(Yaf_Request_Abstract $request, Yaf_Response_Abstract $response)
     {
-        echo "Hook postDispatch called" . PHP_EOL;
+        echo "Hook postDispatch called<br />\n";
     }
 
     /**
@@ -64,6 +75,6 @@ class UserPlugin extends Yaf_Plugin_Abstract
      */
     public function dispatchLoopShutdown(Yaf_Request_Abstract $request, Yaf_Response_Abstract $response)
     {
-        echo "Hook DispatchLoopShutdown called" . PHP_EOL;
+        echo "Hook DispatchLoopShutdown called<br />\n";
     }
 }
