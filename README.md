@@ -36,11 +36,11 @@ DB::connection('another')->get();
 
 ```
 
-# 命名空间写法
+// 命名空间写法
 $user = new \Sub\UserModel();
 echo $user->hello();
 
-# 传统写法
+// 传统写法
 $demo = new Sub_DemoModel();
 echo $demo->hello();
 ```
