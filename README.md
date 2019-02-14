@@ -4,7 +4,7 @@
 ![Supported Eloquent versions: 5.0](https://img.shields.io/badge/Eloquent-%205.0-green.svg)
 ![License](https://img.shields.io/badge/license-Apache%202-yellow.svg)
 
-# Session由默认的文件改为Redis存储
+# Session 由默认的文件改为 Redis 存储
 
 ```
 public function _initSession()
