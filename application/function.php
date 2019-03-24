@@ -251,16 +251,19 @@ function setArrayByField($array = array(), $field = 'id')
  * @param string $field 字段名 默认为id
  * @return array $result 数组(各字段值)
  */
-function getValueByField($array = array(), $field = 'id')
+function getValueByField(array $array, $field = 'id')
 {
     $result = array();
-    if (is_array($array)) {
+    if (function_exists('array_column')) {
+        $result = array_column($array, $field);
+    } else {
         foreach ($array as $key => $value) {
             $result[] = $value[$field];
         }
     }
     return $result;
 }
+
 
 /**
  * 通过关联数组获取数据
